@@ -30,13 +30,15 @@
         .container {
             width: 100%;
             max-width: var(--tg-viewport-width, 100vw);
-            max-width: min(500px, var(--tg-viewport-width, 100vw));
+            padding: clamp(20px, 5vw, 60px) 24px;
             margin: 0 auto;
-            padding: 40px 20px;
             text-align: center;
             background: rgba(255,255,255,0.9);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: clamp(16px, 4vw, 32px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
         }
         .hello {
             font-size: clamp(24px, 5vw, 48px);
@@ -88,10 +90,18 @@
         // Применяем CSS-переменные viewport
         tg.viewport.bindCssVars?.();
 
-        // Обработчик кнопки
+        // Резиновый viewport для десктопа
+        tg.viewport.on('changed', () => {
+            document.documentElement.style.setProperty('--tg-viewport-width',
+        tg.viewport.width + 'px');
+            document.documentElement.style.setProperty('--tg-viewport-height',
+        tg.viewport.height + 'px');
+        });
+
+        // Кнопка
         document.getElementById('buy').addEventListener('click', () => {
-            tg.showAlert('Кнопка "Купить" нажата! Готово к интеграции.');
-            tg.MainButton.setText('Куплено!').show().onClick(() => tg.close());
+             tg.showAlert('Кнопка "Купить" нажата!');
+             tg.MainButton.setText('Куплено!').show().onClick(() => tg.close());
         });
     </script>
 </body>
